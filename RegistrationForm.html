@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <style>
+        .center {
+  margin-left: auto;
+  margin-right: auto;
+}
+        body{
+            font-size: 16px;
+            background-color: aquamarine;
+            
+        }
+        h1{
+          text-align: center;  
+        }
+
+        form{
+            width : 500px;
+            padding : 15px;
+            border : 2px solid coral;
+            margin: 50px auto 0;
+            border-radius: 5px;  
+            background-color: bisque;
+        }
+
+        label{
+            display:block;
+            margin-bottom: 5px;
+        }
+
+        input{
+            border:1px solid lightgrey;
+            padding:10px;
+            display:block;
+            width:95%;
+            border-radius: 2px;
+            
+        }
+        select{
+            border:1px solid lightgrey;
+            padding:10px;
+            display:block;
+            width:100%;
+            border-radius: 2px;
+        }
+        input.inline{
+            display:inline-block;
+            width: auto;
+            padding-right: 15px;
+        }
+        .row{
+            padding-bottom: 15px;
+        }
+        .err{
+            font-size:0.8em;
+            color :darkred;
+            font-size: 15px;
+        }
+        button{
+            display:block;
+            width:41%;
+            height: 50px;
+            background-color:lightskyblue;
+            margin-top: 15px;
+            box-shadow: 0 3px 4px blue;
+            margin-left: auto;
+            margin-right: auto;
+        }
+     </style>
+     <script>
+
+         let firstval, secondval, thirdval, fourthval, fifthval, row;
+         const sGet = function(id){
+return document.getElementById(id);
+}
+class customer{
+    constructor(name, email, telephone, date, amount){
+       this.name = name;
+       this.email = email;
+       this.telephone = telephone;
+       this.date = date;
+       this.amount = amount;
+    }
+}
+function temp()
+{
+    addItems();
+}
+          function addItems()
+         {
+             
+            firstval = sGet("name").value;
+            secondval = sGet("email").value;
+            thirdval = sGet("phone").value;
+            fourthval = sGet("date").value;
+            fifthval = sGet("amount").value;
+             
+            const ex = new customer(firstval, secondval, thirdval, fourthval,fifthval);
+          if(firstval != "" && secondval != "" && thirdval != "" && fourthval != "" && fifthval != "")
+          {
+            row = "<tr><td>"+ ex.name  + "</td>";
+            row += "<td>" + ex.email + "</td>";
+            row += "<td>" + ex.telephone + "</td>";
+            row += "<td>" + ex.date + "</td>";
+            row += "<td>" + ex.amount + "</td>";
+            sGet("records").innerHTML += row;   
+         }
+        }
+    function showErr(ele, msg){
+        sGet(ele).innerText = msg;
+        }
+        function FormValidate(){
+           
+            let name = document.regForm.name.value;
+            let email = document.regForm.email.value;
+            let mobile = document.regForm.phone.value;
+            let date = document.regForm.date.value;
+            let amount = document.regForm.amount.value;
+          
+            if(name == "" || name == null){
+                showErr("errName", "Name is mandatory!!!")
+                return false;
+            }else{
+                showErr("errName", "")
+            }
+             
+            if(email == ""){
+                showErr("errEmail", "Email is mandatory!!!")
+                return false;
+            }else{
+                showErr("errEmail", "")
+            }
+            let regEx = new RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+[.com]$");
+            if(regEx.test(email) == false){
+                showErr("errEmail", "Email is not in a valid format!!!")
+                return false;
+            } else {
+                showErr("errEmail", "")
+            }
+         
+            if(mobile == "" || mobile == null){
+                showErr("errMobile", "Phone number is mandatory!!!")
+                return false;
+            }else{
+                showErr("errMobile", "")
+            }
+
+            regEx = new RegExp("^(0/91)?[7-9][0-9]{9}$");
+            if(!(regEx.test(mobile))){
+                showErr("errMobile", "Mobile is not in a valid format!!!")
+                return false;
+            } else {
+                showErr("errMobile", "")
+            }
+            if(date == "" || date == null){
+                showErr("errDate", "Date is mandatory!!!")
+                return false;
+            }else{
+                showErr("errDate", "")
+            }
+            return true;
+        }
+
+</script>
+</head>
+<body>
+    <form name="regForm" onsubmit="return FormValidate()">
+        <h1>Registration Form</h1>
+        <div class="row">
+            <label for="name">Name*</label>
+            <input type="text" name="name" id="name" placeholder="Enter Full Name" required/>
+            <div id="errName" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="email">Email Address*</label>
+            <input type="email" name="email" id="email" placeholder="Enter Email Address" required/>
+            <div id="errEmail" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="phone">Telephone*</label>
+            <input type="text" id="phone" name="phone" placeholder="Enter Mobile Number" required/>
+            <div id="errMobile" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="date">Billing Date*</label>
+            <input type="date" id="date" name="date" required/>
+            <div id="errDate" class="err"></div>
+        </div>
+        <div class="row">
+            <label for="amount">Billing Amount*</label>
+            <input type="text" id="amount" name="amount" required/>
+        </div>
+        
+    </form>
+    <button onclick="addItems()">Register</button>
+<div>
+    <table class="center" id="records" border="1">
+        <tr>
+            <h1>Customers</h1>
+            <th>Name</th>
+            <th>Email Address</th>
+            <th>Telephone</th>
+            <th>Billing Date</th>
+            <th>Billing amount</th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
